@@ -6,6 +6,7 @@ import { axiosInstance } from '../../utils';
 export default function Register() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
+        console.log(data)
         const res = await axiosInstance.post('/auth/register', data)
         console.log(res)
     }
