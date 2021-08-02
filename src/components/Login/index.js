@@ -29,7 +29,7 @@ export default function index() {
                                         <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Login</button>
                                     </div>
 
-                                    <a class="d-block text-center mt-2 small" href="/auth/login">Have an account? Sign In</a>
+                                    <a class="d-block text-center mt-2 small" href="/auth/register">Don't have an account? Sign up</a>
 
                                     <hr class="my-4" />
 
