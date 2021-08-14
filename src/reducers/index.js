@@ -10,7 +10,7 @@ import { editUserReducer } from './editUserReducer';
 import { updateAssetReducer } from './updateAssetReducer';
 import { getAssetReducer } from './getAssetReducer';
 import { findAssetsReducer, storeAssetReducer } from './assetReducers';
-import { getAllCategoriesReducer } from './categoriesReducers';
+import { getAllCategoriesReducer, getCategoryReducer } from './categoriesReducers';
 import { deleteUserReducer } from './deleteUserReducer';
 
 const rootReducer = combineReducers({
@@ -30,6 +30,7 @@ const rootReducer = combineReducers({
   storeAssetReducer,
   getAllCategoriesReducer,
   deleteUserReducer,
+  getCategoryReducer,
 });
 
 export default rootReducer;

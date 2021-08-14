@@ -15,7 +15,7 @@ export default function Add() {
     <div id="add-asset">
       <div className="container">
         <h4 className="form-header">
-          <b>Create New Asset</b>
+          <b>Create New Category</b>
         </h4>
         <AddForm />
       </div>

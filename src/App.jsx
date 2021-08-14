@@ -4,7 +4,7 @@ import './App.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Layout } from './components/Layout';
-import { Add, Update } from './pages/Asset';
+import { Add, Update } from './pages/Category';
 import { HomePage } from './pages/Home';
 import { LoginPage } from './pages/Login';
 import { CreateUserPage } from './pages/CreateUser';
@@ -29,38 +29,14 @@ function App() {
             <PrivateRoute exact path="/users/create" component={CreateUserPage} roles={[ADMIN]} />
             <PrivateRoute exact path="/users/edit/:id" component={EditUserPage} roles={[ADMIN]} />
             <PrivateRoute exact path="/assets" component={ManageAssets} roles={[ADMIN]} />
-            <PrivateRoute exact path="/assets/create" component={Add} roles={[ADMIN]} />
-            <PrivateRoute exact path="/assets/edit/:id" component={Update} roles={[ADMIN]} />
             <PrivateRoute
               exact
-              path="/assignments"
-              component={() => <h1>Manage Assignments</h1>}
+              path="/categories"
+              component={() => <h1>Manage Category</h1>}
               roles={[ADMIN]}
             />
-            <PrivateRoute
-              exact
-              path="/assignments/create"
-              component={() => <h1>Create Assignments</h1>}
-              roles={[ADMIN]}
-            />
-            <PrivateRoute
-              exact
-              path="/assignments/edit/:id"
-              component={() => <h1>Edit Assignments</h1>}
-              roles={[ADMIN]}
-            />
-            <PrivateRoute
-              exact
-              path="/report"
-              component={() => <h1>Report Page</h1>}
-              roles={[ADMIN]}
-            />
-            <PrivateRoute
-              exact
-              path="/requests"
-              component={() => <h1>Requests for Returning Page</h1>}
-              roles={[ADMIN]}
-            />
+            <PrivateRoute exact path="/categories/create" component={Add} roles={[ADMIN]} />
+            <PrivateRoute exact path="/categories/edit/:id" component={Update} roles={[ADMIN]} />
           </Switch>
         </Layout>
       </Router>

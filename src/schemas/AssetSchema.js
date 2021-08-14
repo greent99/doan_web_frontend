@@ -17,14 +17,4 @@ export const AddAndUpdateSchema = Yup.object().shape({
       }
       return true;
     }),
-  category: Yup.string().required('Category is a required field'),
-  specification: Yup.string().required('Specification is a required field'),
-  installedDate: Yup.date()
-    .required('Installed Date is a required field')
-    .test(
-      'installedDate',
-      'Installed Date must be before current date!',
-      (value) => new Date(value) < new Date()
-    ),
-  state: Yup.string().required('State is a required field').max(255),
 });
