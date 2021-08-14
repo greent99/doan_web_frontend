@@ -10,8 +10,20 @@ import { editUserReducer } from './editUserReducer';
 import { updateAssetReducer } from './updateAssetReducer';
 import { getAssetReducer } from './getAssetReducer';
 import { findAssetsReducer, storeAssetReducer } from './assetReducers';
-import { getAllCategoriesReducer, getCategoryReducer } from './categoriesReducers';
+import {
+  getAllCategoriesReducer,
+  getCategoryReducer,
+  editCategoryReducer,
+  deleteCategoryReducer,
+} from './categoriesReducers';
 import { deleteUserReducer } from './deleteUserReducer';
+import {
+  getAllFieldReducer,
+  getFieldReducer,
+  editFieldReducer,
+  deleteFieldReducer,
+  createFieldReducer,
+} from './fieldReducer';
 
 const rootReducer = combineReducers({
   getAllUsersReducer,
@@ -31,6 +43,13 @@ const rootReducer = combineReducers({
   getAllCategoriesReducer,
   deleteUserReducer,
   getCategoryReducer,
+  editCategoryReducer,
+  deleteCategoryReducer,
+  getAllFieldReducer,
+  getFieldReducer,
+  editFieldReducer,
+  deleteFieldReducer,
+  createFieldReducer,
 });
 
 export default rootReducer;

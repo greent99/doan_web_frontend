@@ -31,6 +31,11 @@ export const adminNavList = [
     matchingRoutes: ['/categories', '/categories/create', 'categories/edit'],
   },
   {
+    path: '/fields',
+    name: 'Manage Field',
+    matchingRoutes: ['/fields', '/fields/create', 'fields/edit'],
+  },
+  {
     path: '/courses',
     name: 'Manage Courses',
     matchingRoutes: ['/courses', '/courses/create', 'courses/edit'],

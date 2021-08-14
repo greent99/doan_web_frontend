@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setHeaderTitle } from '../../actions/headerActions';
-import UpdateForm from './components/UpdateForm';
+import AddForm from './components/AddForm';
 import './Add.css';
 
-export default function Update() {
+export default function Add() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setHeaderTitle(['Update Asset']));
+    dispatch(setHeaderTitle(['Create New Field']));
   }, [dispatch]);
 
   return (
     <div id="add-asset">
       <div className="container">
         <h4 className="form-header">
-          <b>Update Category</b>
+          <b>Create New Field</b>
         </h4>
-        <UpdateForm />
+        <AddForm />
       </div>
     </div>
   );

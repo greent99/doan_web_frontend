@@ -10,10 +10,15 @@ import {
   EDIT_CATEGORY_SUCCESS,
   EDIT_CATEGORY_FAIL,
   STORE_CATEGORY,
+  GET_CATEGORY_REQUEST,
+  GET_CATEGORY_SUCCESS,
+  GET_CATEGORY_FAIL,
+  REMOVE_STORE_CATEGORY,
+  DELETE_CATEGORY_REQUEST,
+  DELETE_CATEGORY_SUCCESS,
+  DELETE_CATEGORY_FAIL,
 } from '../constants';
 import { getErrorMessageFromResponse, createAuthorizedRequestHeader } from '../utils';
-
-const CATEGORY_URL = `${process.env.REACT_APP_API_URL}/categories`;
 
 export const createCategory =
   ({ name }) =>
@@ -37,12 +42,20 @@ export const createCategory =
     }
   };
 
-export const getAllCategories = () => async (dispatch) => {
+export const getAllCategories = () => async (dispatch, getState) => {
   dispatch({
     type: GET_ALL_CATEGORIES_REQUEST,
   });
+  const {
+    authReducer: { userData },
+  } = getState();
   try {
-    const res = await axios.get(CATEGORY_URL);
+    // const paramsTxt = queryString.stringify(body);
+    const res = await axios.get('http://localhost:5000/api/categories', {
+      headers: {
+        Authorization: createAuthorizedRequestHeader(userData),
+      },
+    });
     dispatch({
       type: GET_ALL_CATEGORIES_SUCCESS,
       payload: res.data,
@@ -85,6 +98,62 @@ export const editCategory = (id, name) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: EDIT_CATEGORY_FAIL,
+      payload: getErrorMessageFromResponse(error),
+    });
+  }
+};
+
+export const getCategory = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_CATEGORY_REQUEST,
+  });
+  const {
+    authReducer: { userData },
+  } = getState();
+  try {
+    const res = await axios.get(`http://localhost:5000/api/categories/${id}`, {
+      headers: {
+        Authorization: createAuthorizedRequestHeader(userData),
+      },
+    });
+    dispatch({
+      type: GET_CATEGORY_SUCCESS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_CATEGORY_FAIL,
+      payload: getErrorMessageFromResponse(error),
+    });
+  }
+};
+
+export const removeStoreCategory = () => (dispatch) => {
+  dispatch({
+    type: REMOVE_STORE_CATEGORY,
+  });
+};
+
+export const deleteCategory = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: DELETE_CATEGORY_REQUEST,
+  });
+  const {
+    authReducer: { userData },
+  } = getState();
+  try {
+    const res = await axios.delete(`http://localhost:5000/api/categories/${id}`, {
+      headers: {
+        Authorization: createAuthorizedRequestHeader(userData),
+      },
+    });
+    dispatch({
+      type: DELETE_CATEGORY_SUCCESS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_CATEGORY_FAIL,
       payload: getErrorMessageFromResponse(error),
     });
   }

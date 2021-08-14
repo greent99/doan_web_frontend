@@ -20,3 +20,29 @@ export const userTableHeader = [
     sortBy: 'userType',
   },
 ];
+
+export const categoryTabHeader = [
+  {
+    name: 'ID',
+    sortBy: 'id',
+  },
+  {
+    name: 'Name',
+    sortBy: 'name',
+  },
+];
+
+export const fieldTabHeader = [
+  {
+    name: 'ID',
+    sortBy: 'id',
+  },
+  {
+    name: 'Name',
+    sortBy: 'name',
+  },
+  {
+    name: 'Category Name',
+    sortBy: 'categoryid',
+  },
+];
