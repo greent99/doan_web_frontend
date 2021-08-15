@@ -24,6 +24,13 @@ import {
   deleteFieldReducer,
   createFieldReducer,
 } from './fieldReducer';
+import {
+  getAllCourseReducer,
+  getCourseReducer,
+  editCourseReducer,
+  deleteCourseReducer,
+  createCourseReducer,
+} from './courseReducer';
 
 const rootReducer = combineReducers({
   getAllUsersReducer,
@@ -50,6 +57,11 @@ const rootReducer = combineReducers({
   editFieldReducer,
   deleteFieldReducer,
   createFieldReducer,
+  getAllCourseReducer,
+  getCourseReducer,
+  editCourseReducer,
+  deleteCourseReducer,
+  createCourseReducer,
 });
 
 export default rootReducer;

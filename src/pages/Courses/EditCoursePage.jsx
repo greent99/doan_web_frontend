@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setHeaderTitle } from '../../actions';
-import EditUserForm from './components/EditUserForm';
+import EditCourseForm from './components/EditCourseForm';
 import './editCoursePage.scss';
 
-const EditUserPage = () => {
+const EditCoursePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -15,10 +15,10 @@ const EditUserPage = () => {
     <div id="user-form-page">
       <div className="container">
         <h4 className="form-header">Edit Course</h4>
-        <EditUserForm />
+        <EditCourseForm />
       </div>
     </div>
   );
 };
 
-export default EditUserPage;
+export default EditCoursePage;

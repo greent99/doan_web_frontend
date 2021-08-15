@@ -1,72 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormGroup, FormLabel, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
-import { createUser } from '../../../actions';
+import { createCourse } from '../../../actions';
 import { createToast } from '../../../utils';
 
-const CreateUserForm = () => {
+const CreateCourseForm = () => {
   const initialValues = {
     name: '',
-    password: '',
-    username: '',
-    phone: '',
-    gender: 'Female',
-    userType: 'Staff',
+    author: 22,
+    description: '',
+    status: '',
+    price: 0,
+    field: 1,
   };
   const [isSubmitted, setIsSubmitted] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { loading, error } = useSelector((state) => state.createUserReducer);
+  const [listCategory, setListCategory] = useState([]);
+  const [listAuthor, setListAuthor] = useState([]);
+  const { loading, error } = useSelector((state) => state.createCourseReducer);
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .required('Email is a required field')
+    name: Yup.string()
+      .required('Name is a required field')
       .max(255)
-      .test('email', 'Email do not include spaces!', (value) => {
+      .test('name', 'Name do not include spaces!', (value) => {
         if (value) {
           return !value.includes(' ');
         }
         return true;
       }),
-    password: Yup.string()
-      .required('Password is a required field')
-      .max(255)
-      .test('password', 'Password do not include spaces!', (value) => {
-        if (value) {
-          return !value.includes(' ');
-        }
-        return true;
-      }),
-    changepassword: Yup.string()
-      .required('Change password is a required field')
-      .when('password', {
-        is: (val) => !!(val && val.length > 0),
-        then: Yup.string().oneOf([Yup.ref('password')], 'Both password need to be the same'),
-      }),
-    username: Yup.string()
-      .required('User name is a required field')
-      .max(255)
-      .test('username', 'Username do not include spaces!', (value) => {
-        if (value) {
-          return !value.includes(' ');
-        }
-        return true;
-      }),
-    fullname: Yup.string()
-      .required('Full name is a required field')
-      .max(255)
-      .test('fullname', 'Invalid name', (value) => {
-        if (value) {
-          const str = value.replace(/\s\s+/g, ' ');
-          return str === value;
-        }
-        return true;
-      }),
-    gender: Yup.string().required('Gender is a required field').max(10),
-    userType: Yup.string().required('User type is a required field').max(20),
+    author: Yup.number().required('Author is a required field'),
+    description: Yup.string(),
+    status: Yup.string().required('Status is a required field').max(255),
+    price: Yup.number().required('Price is a required field').min(0),
   });
   useEffect(() => {
     if (isSubmitted) {
@@ -75,120 +46,135 @@ const CreateUserForm = () => {
       }
       if (!loading && !error) {
         setIsSubmitted(false);
-        history.push('/users');
+        history.push('/courses');
       }
     }
   }, [isSubmitted, loading, error]);
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/fields').then((response) => {
+      if (response.status === 200) setListCategory(response.data.dataRows);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/user/getByRole/Teacher').then((response) => {
+      if (response.status === 200) setListAuthor(response.data.users);
+    });
+  }, []);
   const onSubmit = (values) => {
-    dispatch(createUser({ ...values }));
+    dispatch(createCourse({ ...values }));
     setIsSubmitted(true);
   };
   const cancel = () => {
-    history.push('/users');
+    history.push('/courses');
   };
+  const renderListCategory = (categories) =>
+    categories.map((category) => <option value={category.id}>{category.name}</option>);
+  const renderListAuthor = (authors) =>
+    authors.map((author) => <option value={author.id}>{author.fullname}</option>);
   return (
     <>
       <ToastContainer />
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-        {({ isSubmitting, dirty, isValid }) => (
+        {({ isSubmitting, dirty, isValid, setFieldValue }) => (
           <Form className="formContainer" autoComplete="off">
             <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="email" column sm="3">
-                Email<sup className="required-icon">*</sup>
+              <FormLabel htmlFor="name" column sm="3">
+                Name<sup className="required-icon">*</sup>
               </FormLabel>
               <Col sm="9">
-                <Field id="email" name="email" placeholder="" className="form-control" />
-                <ErrorMessage name="email" component="span" className="error-message" />
+                <Field id="name" name="name" placeholder="" className="form-control" />
+                <ErrorMessage name="name" component="span" className="error-message" />
               </Col>
             </FormGroup>
 
             <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="password" column sm="3">
-                Password<sup className="required-icon">*</sup>
+              <FormLabel htmlFor="author" column sm="3">
+                Author<sup className="required-icon">*</sup>
+              </FormLabel>
+              <Col sm="9">
+                <Field component="select" id="author" name="author" className="custom-select">
+                  {renderListAuthor(listAuthor)}
+                </Field>
+                <ErrorMessage name="author" component="span" className="error-message" />
+              </Col>
+            </FormGroup>
+
+            <FormGroup as={Row} className="mb-3">
+              <FormLabel htmlFor="field" column sm="3">
+                Category<sup className="required-icon">*</sup>
+              </FormLabel>
+              <Col sm="9">
+                <Field component="select" id="field" name="field" className="custom-select">
+                  {renderListCategory(listCategory)}
+                </Field>
+                <ErrorMessage name="category" component="span" className="error-message" />
+              </Col>
+            </FormGroup>
+
+            <FormGroup as={Row} className="mb-3">
+              <FormLabel htmlFor="price" column sm="3">
+                Price<sup className="required-icon">*</sup>
+              </FormLabel>
+              <Col sm="9">
+                <Field id="price" name="price" placeholder="" className="form-control" />
+                <ErrorMessage name="price" component="span" className="error-message" />
+              </Col>
+            </FormGroup>
+
+            <FormGroup as={Row} className="mb-3">
+              <FormLabel htmlFor="description" column sm="3">
+                Description<sup className="required-icon">*</sup>
               </FormLabel>
               <Col sm="9">
                 <Field
-                  id="password"
-                  name="password"
-                  type="password"
+                  id="description"
+                  name="description"
                   placeholder=""
                   className="form-control"
                 />
-                <ErrorMessage name="password" component="span" className="error-message" />
+                <ErrorMessage name="description" component="span" className="error-message" />
               </Col>
             </FormGroup>
 
             <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="changepassword" column sm="3">
-                Confirm Password<sup className="required-icon">*</sup>
+              <FormLabel htmlFor="description" column sm="3">
+                Avatar<sup className="required-icon">*</sup>
               </FormLabel>
               <Col sm="9">
-                <Field
-                  id="changepassword"
-                  name="changepassword"
-                  type="password"
-                  className="form-control"
+                <input
+                  id="file"
+                  name="file"
+                  type="file"
+                  onChange={(event) => {
+                    setFieldValue('file', event.currentTarget.files[0]);
+                  }}
                 />
-                <ErrorMessage name="changepassword" component="span" className="error-message" />
+                <ErrorMessage name="file" component="span" className="error-message" />
               </Col>
             </FormGroup>
 
             <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="username" column sm="3">
-                Username<sup className="required-icon">*</sup>
-              </FormLabel>
-              <Col sm="9">
-                <Field id="username" name="username" placeholder="" className="form-control" />
-                <ErrorMessage name="username" component="span" className="error-message" />
-              </Col>
-            </FormGroup>
-
-            <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="fullname" column sm="3">
-                Full Name<sup className="required-icon">*</sup>
-              </FormLabel>
-              <Col sm="9">
-                <Field id="fullname" name="fullname" placeholder="" className="form-control" />
-                <ErrorMessage name="fullname" component="span" className="error-message" />
-              </Col>
-            </FormGroup>
-
-            <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="gender" column sm="3" className="mt-1">
-                Gender<sup className="required-icon">*</sup>
+              <FormLabel htmlFor="status" column sm="3" className="mt-1">
+                Status<sup className="required-icon">*</sup>
               </FormLabel>
               <Col sm="9">
                 <Row className="mt-2">
                   <div className="form-check">
-                    <Field type="radio" id="female-gender" name="gender" value="Female" />
+                    <Field type="radio" id="female-gender" name="status" value="Available" />
                     <FormLabel htmlFor="female-gender" className="ml-3 mt-1">
-                      Female
+                      Available
                     </FormLabel>
                   </div>
 
                   <div className="form-check">
-                    <Field type="radio" id="male-gender" name="gender" value="Male" />
+                    <Field type="radio" id="male-gender" name="status" value="Not Available" />
                     <FormLabel htmlFor="male-gender" className="ml-3 mt-1">
-                      Male
+                      Not Available
                     </FormLabel>
                   </div>
                 </Row>
 
-                <ErrorMessage name="gender" component="span" className="error-message" />
-              </Col>
-            </FormGroup>
-
-            <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="userType" column sm="3">
-                Type<sup className="required-icon">*</sup>
-              </FormLabel>
-              <Col sm="9">
-                <Field component="select" id="userType" name="userType" className="custom-select">
-                  <option value="Admin">Admin</option>
-                  <option value="Teacher">Teacher</option>
-                  <option value="Student">Student</option>
-                </Field>
-                <ErrorMessage name="userType" component="span" className="error-message" />
+                <ErrorMessage name="status" component="span" className="error-message" />
               </Col>
             </FormGroup>
 
@@ -211,4 +197,4 @@ const CreateUserForm = () => {
   );
 };
 
-export default CreateUserForm;
+export default CreateCourseForm;

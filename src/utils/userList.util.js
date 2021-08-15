@@ -46,3 +46,26 @@ export const fieldTabHeader = [
     sortBy: 'categoryid',
   },
 ];
+
+export const courseTableHeader = [
+  {
+    name: 'Name',
+    sortBy: 'id',
+  },
+  {
+    name: 'Author',
+    sortBy: 'author',
+  },
+  {
+    name: 'Category',
+    sortBy: 'field',
+  },
+  {
+    name: 'Price',
+    sortBy: 'price',
+  },
+  {
+    name: 'Status',
+    sortBy: 'status',
+  },
+];

@@ -41,7 +41,7 @@ const AddForm = () => {
       if (error) createToast(error, 'error');
       else {
         setIsSubmitted(false);
-        history.push('/categories');
+        history.push('/fields');
       }
     }
   }, [isSubmitted, loading, error]);
@@ -77,11 +77,11 @@ const AddForm = () => {
             </Form.Group>
 
             <FormGroup as={Row} className="mb-3">
-              <FormLabel htmlFor="userType" column sm="3">
+              <FormLabel htmlFor="category" column sm="3">
                 Type<sup className="required-icon">*</sup>
               </FormLabel>
               <Col sm="9">
-                <Field component="select" id="userType" name="userType" className="custom-select">
+                <Field component="select" id="category" name="category" className="custom-select">
                   {renderListCategory(listCategory)}
                 </Field>
                 <ErrorMessage name="userType" component="span" className="error-message" />

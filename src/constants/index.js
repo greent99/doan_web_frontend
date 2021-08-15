@@ -4,3 +4,4 @@ export * from './headerConstant';
 export * from './assetConstant';
 export * from './categoryConstant';
 export * from './fieldConstant';
+export * from './courseConstant';
