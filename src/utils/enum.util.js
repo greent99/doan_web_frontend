@@ -1,7 +1,8 @@
 const enumUserTypes = {
   ALL: 'All',
   ADMIN: 'Admin',
-  STAFF: 'Staff',
+  STAFF: 'Teacher',
+  STUDENT: 'Student',
 };
 
 Object.freeze(enumUserTypes);

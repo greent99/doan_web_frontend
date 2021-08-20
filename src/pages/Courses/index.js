@@ -1,4 +1,4 @@
 import CreateCourse from './CreateCoursePage';
-import UpdateCourse from './EditCoursePage';
+import EditCoursePage from './EditCoursePage';
 
-export { CreateCourse, UpdateCourse };
+export { CreateCourse, EditCoursePage };

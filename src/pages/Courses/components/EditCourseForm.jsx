@@ -33,6 +33,14 @@ const EditCourseForm = () => {
     status: Yup.string().required('Status is a required field').max(255),
     price: Yup.number().required('Price is a required field').min(0),
   });
+  const initialValues = {
+    name: '',
+    author: 22,
+    description: '',
+    status: '',
+    price: 0,
+    field: 1,
+  };
   useEffect(() => {
     dispatch(getCourse(id));
   }, []);
@@ -80,13 +88,7 @@ const EditCourseForm = () => {
       <>
         <ToastContainer />
         <Formik
-          initialValues={{
-            email: data.email,
-            username: data.username,
-            fullname: data.fullname,
-            gender: data.gender,
-            userType: data.userType,
-          }}
+          initialValues={initialValues}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >

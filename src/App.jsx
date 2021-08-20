@@ -17,7 +17,7 @@ import { enumUserTypes } from './utils';
 import { EditUserPage } from './pages/EditUser';
 import { ManageAssets } from './pages/ManageAssets';
 import { AddField, UpdateField } from './pages/Field';
-import { CreateCourse, UpdateCourse } from './pages/Courses';
+import { CreateCourse, EditCoursePage } from './pages/Courses';
 
 const { ADMIN } = enumUserTypes;
 
@@ -42,7 +42,12 @@ function App() {
             <PrivateRoute exact path="/fields/edit/:id" component={UpdateField} roles={[ADMIN]} />
             <PrivateRoute exact path="/courses" component={CourseList} roles={[ADMIN]} />
             <PrivateRoute exact path="/courses/create" component={CreateCourse} roles={[ADMIN]} />
-            <PrivateRoute exact path="/courses/edit/:id" component={UpdateCourse} roles={[ADMIN]} />
+            <PrivateRoute
+              exact
+              path="/courses/edit/:id"
+              component={EditCoursePage}
+              roles={[ADMIN]}
+            />
           </Switch>
         </Layout>
       </Router>

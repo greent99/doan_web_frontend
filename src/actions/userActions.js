@@ -1,4 +1,5 @@
 import axios from 'axios';
+import queryString from 'querystring';
 import {
   GET_ALL_USERS_FAIL,
   GET_ALL_USERS_REQUEST,
@@ -30,7 +31,7 @@ import { getErrorMessageFromResponse, createAuthorizedRequestHeader } from '../u
 
 const USERS_URL = `${process.env.REACT_APP_API_URL}/users`;
 
-export const getAllUsers = () => async (dispatch, getState) => {
+export const getAllUsers = (body) => async (dispatch, getState) => {
   dispatch({
     type: GET_ALL_USERS_REQUEST,
   });
@@ -38,8 +39,8 @@ export const getAllUsers = () => async (dispatch, getState) => {
     authReducer: { userData },
   } = getState();
   try {
-    // const paramsTxt = queryString.stringify(body);
-    const res = await axios.get('http://localhost:5000/api/user', {
+    const paramsTxt = queryString.stringify(body);
+    const res = await axios.get(`http://localhost:5000/api/user?${paramsTxt}`, {
       headers: {
         Authorization: createAuthorizedRequestHeader(userData),
       },

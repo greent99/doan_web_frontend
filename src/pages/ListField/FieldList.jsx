@@ -134,7 +134,7 @@ const ListUsers = () => {
             <Popup modal trigger={<td className="popup-button">{field.name}</td>}>
               <Detailed isShowed currentUser={field} />
             </Popup>
-            <td>{field.name}</td>
+            <td>{field.category_name}</td>
             <td className="edit-delete">
               <Link to={`/fields/edit/${field.id}`} className="btn btn-light ">
                 <BsPencil className="edit-icon" />

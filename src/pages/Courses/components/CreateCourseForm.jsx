@@ -25,15 +25,7 @@ const CreateCourseForm = () => {
   const [listAuthor, setListAuthor] = useState([]);
   const { loading, error } = useSelector((state) => state.createCourseReducer);
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required('Name is a required field')
-      .max(255)
-      .test('name', 'Name do not include spaces!', (value) => {
-        if (value) {
-          return !value.includes(' ');
-        }
-        return true;
-      }),
+    name: Yup.string().required('Name is a required field').max(255),
     author: Yup.number().required('Author is a required field'),
     description: Yup.string(),
     status: Yup.string().required('Status is a required field').max(255),
@@ -127,6 +119,7 @@ const CreateCourseForm = () => {
               </FormLabel>
               <Col sm="9">
                 <Field
+                  as="textarea"
                   id="description"
                   name="description"
                   placeholder=""
